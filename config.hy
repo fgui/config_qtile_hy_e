@@ -55,6 +55,8 @@
   
   screens
   [(Screen
+     :wallpaper "~/.config/qtile/bg.jpg"
+     :wallpaper_mode "fill"
      :top (bar.Bar
             [(widget.CurrentLayout)
              (widget.GroupBox)
