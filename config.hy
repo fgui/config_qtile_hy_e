@@ -1,13 +1,16 @@
 (import
   libqtile [bar layout widget]
   libqtile.config [Click Drag Group Key Match Screen KeyChord]
-  libqtile.lazy [lazy])
+  libqtile.lazy [lazy]
+  libqtile.utils [guess-terminal])
 
 (setv
   mod "mod4"
+  terminal (guess-terminal)
   
   keys
   [(Key [mod] "e" (lazy.spawncmd))
+   (Key [mod] "q" (lazy.window.kill))
    (KeyChord [mod] "x"
              [(Key [] "i" (lazy.next_layout))
               (Key [] "r" (lazy.reload_config))
@@ -26,22 +29,53 @@
               (Key ["control"] "n" (lazy.layout.grow_down) :desc "Grow window down")
               (Key ["control"] "p" (lazy.layout.grow_up) :desc "Grow window up")
               (Key [] "u" (lazy.layout.normalize) :desc "Reset all window sizes")
-
               ]
              :mode True
-             :name "qtile mode")   
-   (Key [mod "control"] "q" (lazy.shutdown))]
+             :name "qtile mode")
+   (KeyChord [mod] "l"
+             [(Key [] "l" (lazy.spawn "lock.sh") :desc "Launch lock screen")
+              (Key [] "f" (lazy.spawn "firefox") :desc "Launch firefox")
+              (Key [] "t" (lazy.spawn terminal) :desc "Launch terminal")
+              (Key [] "z" (lazy.spawn "filezilla") :desc "Launch filezilla")]
+             :name "launch...")
+   
+   (Key [mod "control"] "q" (lazy.shutdown))
+   ]
   
   layouts
-  [(layout.Columns :border-focus-stack ["#d75f5f" "#8f3d3d"] :boder-with 4)]
+  [(layout.Columns :border-focus-stack ["#d75f5f" "#8f3d3d"] :boder-with 4)
+   (layout.Max)]
 
+  groups [(Group "1 e")
+          (Group "2 web")
+          (Group "3 term")
+          (Group "4")
+          (Group "5")
+          (Group "6")]
+  
   screens
   [(Screen
      :top (bar.Bar
             [(widget.CurrentLayout)
+             (widget.GroupBox)
              (widget.Prompt)
              (widget.WindowName)
              (widget.Chord)
+             (widget.TextBox "hy-conf")
+             (widget.Clock :format"%Y-%m-%d %a %I:%M %p")
              (widget.QuickExit)]
             32))])
 
+(for [group groups]
+  (keys.extend [
+                (Key [mod]
+                     (get group.name 0)
+                     (.toscreen (get lazy.group group.name))
+                     )
+                (Key [mod "shift"]
+                     (get group.name 0)
+                     (lazy.window.togroup
+                       group.name :switch_group True)
+                     )
+                ])
+  )
