@@ -1,0 +1,14 @@
+#+title: My simplish Hy Qtile conf
+
+* Requirement
+
+Edit your qtile (=which qtile=) to add =import hy=.
+Tried to add a __init__.py to import hy in the config folder. There
+has to be a better way.
+
+* Notes
+
+Qtile keeps copying a =config.py= in the configuration folder. There has
+to be a simple way to stop this. I don't know how. Luckly when I enter
+Qtile the =config.hy= is honored instead of =config.py=.
+
