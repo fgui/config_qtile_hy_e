@@ -8,7 +8,11 @@
   
   keys
   [(Key [mod] "e" (lazy.spawncmd))
-   (Key [mod "control"] "r" (lazy.reload_config))
+   (KeyChord [mod] "x"
+             [(Key [] "i" (lazy.next_layout))
+              (Key [] "r" (lazy.reload_config))]
+             :mode True
+             :name "qtile mode")   
    (Key [mod "control"] "q" (lazy.shutdown))]
   
   layouts
@@ -19,6 +23,8 @@
      :top (bar.Bar
             [(widget.CurrentLayout)
              (widget.Prompt)
+             (widget.WindowName)
+             (widget.Chord)
              (widget.QuickExit)]
             32))])
 
