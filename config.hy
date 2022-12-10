@@ -39,8 +39,7 @@
               (Key [] "z" (lazy.spawn "filezilla") :desc "Launch filezilla")]
              :name "launch...")
    
-   (Key [mod "control"] "q" (lazy.shutdown))
-   ]
+   (Key [mod "control"] "q" (lazy.shutdown))]
   
   layouts
   [(layout.Columns :border-focus-stack ["#d75f5f" "#8f3d3d"] :boder-with 4)
@@ -66,7 +65,22 @@
              (widget.TextBox "hy-conf")
              (widget.Clock :format"%Y-%m-%d %a %I:%M %p")
              (widget.QuickExit)]
-            32))])
+            32))]
+
+  ;; setups from default config
+  dgroups_key_binder None
+  dgroups_app_rules []  ; type: list
+  follow_mouse_focus True
+  bring_front_click False
+  cursor_warp False
+
+  auto_fullscreen True
+  focus_on_window_activation "smart"
+  reconfigure_screens True
+  auto-minimize True
+  wl-input-rules None
+  wmname "LG3D"
+  )
 
 (for [group groups]
   (keys.extend [
